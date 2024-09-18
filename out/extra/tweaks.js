@@ -1,6 +1,5 @@
 // parts of the task we can change with a flag
-let tweaks = {'nocaptcha': 'skip audio confirmatin/captcha',
-              'where=mri': 'MRI: glove box and embeded up/down survey',
+const tweaks = {'nocaptcha': 'skip audio confirmatin/captcha',
               'noinstruction': 'skip all instructions (go to ready screen)',
               'VERBOSEDEBUG': 'verbose debugging',
               'fewtrials': 'reduce trial count: only 1 pair ea. per block',
@@ -16,12 +15,13 @@ let tweaks = {'nocaptcha': 'skip audio confirmatin/captcha',
               'step=slow': 'very slow moving avatar for debuging'
 }
 
-let landscapes = ['ocean', 'mountain', 'desert', 'wellcoin']
-let timing_choices = ['random', 'debug', 'mrA1', 'mrA2', 'mrB1', 'mrB2', 'quickrandom', 'randomA','randomB']
+const landscapes = ['ocean', 'mountain', 'desert', 'wellcoin']
+const timing_choices = ['random', 'debug', 'mrA1', 'mrA2', 'mrB1', 'mrB2', 'quickrandom', 'randomA','randomB']
+const where_choices = ['practice','mri','eeg','seeg','online']
 
 // grab value of an input
 function qs(name) {
-  let query = 'input[name=' + name + ']';
+  const query = 'input[name=' + name + ']';
   dom = document.querySelector(query);
   return(dom?dom.value:null);
 }
@@ -36,24 +36,26 @@ function yyyymmdd(){
 
 // settings to append to anchor of url
 function ifchecked(name){
- let dom = document.querySelector("input[name='"+name+"']")
- let box = dom?dom.checked:false;
+ const dom = document.querySelector("input[name='"+name+"']")
+ const box = dom?dom.checked:false;
  return(box?name:"")
 }
 
 function get_anchor(){
-    let landscape =  document.querySelector("#landscape");
-    let timing =  document.querySelector("#timingchoice");
-    let lang =  document.querySelector("#lang");
+    const landscape =  document.querySelector("#landscape");
+    const timing =  document.querySelector("#timingchoice");
+    const lang =  document.querySelector("#lang");
+    const where =  document.querySelector("#wherechoice");
     //selectedOptions[landscape.selectedIndex].value;
-    let ltype = "landscape=" + (landscape?landscape.value:"ocean");
-    let ttype = "timing="    + (timing?timing.value:"random");
-    let langv = "lang="      + (lang?lang.value:"en");
-    let tweakstr = Object.keys(tweaks)
+    const ltype = "landscape=" + (landscape?landscape.value:"ocean");
+    const ttype = "timing="    + (timing?timing.value:"random");
+    const langv = "lang="      + (lang?lang.value:"en");
+    const wherev = "where="      + (where?where.value:"online");
+    const tweakstr = Object.keys(tweaks)
                  .map(x=>ifchecked(x))
                  .filter(x=>x!="")
                  .join("&");
-    return("#" + ltype + "&" + ttype+ "&" + langv + (tweakstr?("&"+tweakstr):""))
+    return("#" + ltype + "&" + ttype+ "&" + langv +"&" + wherev + (tweakstr?("&"+tweakstr):""))
 }
 
 function add_landscape_choices(){
@@ -62,7 +64,7 @@ function add_landscape_choices(){
    landscapes.forEach((x,i)=>
          html +='<option name="'+ x +'"' + (i==0?"selected":"") + '>' + x + '</option>')
    html +=  '</select>  <br>';
-   let f =  document.querySelector("#task_setting_tweaks");
+   const f =  document.querySelector("#task_setting_tweaks");
    f.innerHTML += html;
 }
 function add_timing_choices(){
@@ -70,18 +72,27 @@ function add_timing_choices(){
    timing_choices.forEach((x,i)=>
          html +='<option name="'+ x +'"' + (i==0?"selected":"") + '>' + x + '</option>')
    html +=  '</select>  <br></td></tr>';
-   let f =  document.querySelector("#task_setting_tweaks");
+   const f =  document.querySelector("#task_setting_tweaks");
+   f.innerHTML += html;
+}
+
+function add_where_choices(){
+   html = '<td><label for="wherechoice">where:</label></td><td><select id="wherechoice">'
+   where_choices.forEach((x,i)=>
+         html +='<option name="'+ x +'"' + (i==0?"selected":"") + '>' + x + '</option>')
+   html +=  '</select>  <br></td></tr>';
+   const f =  document.querySelector("#task_setting_tweaks");
    f.innerHTML += html;
 }
 
 function add_language(){
- let html = '<tr><td><label for="lang">language</label></td>\
+ const html = '<tr><td><label for="lang">language</label></td>\
          <td><select id="lang">\
          <option>en</option>\
          <option>es</option>\
       </select></td></tr>';
 
-   let f =  document.querySelector("#task_setting_tweaks");
+   const f =  document.querySelector("#task_setting_tweaks");
    f.innerHTML += html;
 
    //var browser_lang = navigator.language || navigator.userLanguage;
@@ -92,6 +103,7 @@ function add_language(){
 function add_tweaks(){
    add_landscape_choices();
    add_timing_choices();
+   add_where_choices();
    add_language();
 
    let f =  document.querySelector("#task_setting_tweaks");
