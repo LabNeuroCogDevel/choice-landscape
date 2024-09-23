@@ -1,7 +1,7 @@
 function [onset, output] = choice(system, t, varargin)
 
-allkeys = [system.keys.left system.keys.up system.keys.right];
-keys = []; 
+allkeys = [system.keys.left, system.keys.up,  system.keys.right];
+keys = [];
 
 ideal = GetSecs()+t.onset;
 Screen('DrawTexture', system.w, system.tex.ocean_bottom); % Show the background again
@@ -79,40 +79,46 @@ end
 
 
 onset = Screen('Flip', system.w, ideal);
-sendDaqs(system);
 
+[daq_flag, HID] = find_daq();
+daq_on = 255;
+daq_off = 0;
+send_trigger(daq_flag,daq_on,HID);
+send_trigger(daq_flag,daq_off,HID) %Turn off DAQ
 % [k rt] = waitForKeys(keys, onset + t.max_rt);
 
-keyPressed = 0;
-RTBox('clear',5)
-while keyPressed == 0
-    [k,rt] = waitForKeyPress(keyPressed,'rtbox');
+% RTBox('ClockRatio', 5);
+RTBox('clear')
+k=0;
+timeout = onset + t.max_rt;
+while (~ismember(k, keys) && GetSecs() < timeout)
+    [k,rt] = waitForKeyPress(k,'rtbox');    
 end
 
-if rt > 0
-    idx = find(allkeys == k,1);
-    fprintf('choice %d, key %d',idx, k)
-    well_prob = t.chance(idx);
-    output.score = (rand(1) <= well_prob);
-    if idx == 1
-        output.pick = 'left';
+    if rt > 0
+        idx = find(allkeys == k,1);
+        fprintf('choice %d, key %d',idx, k)
+        well_prob = t.chance(idx);
+        output.score = (rand(1) <= well_prob);
+        if k == 1
+            output.pick = 'left';
 
-    elseif idx == 2
-        output.pick = 'up';
+        elseif k == 2 || k ==3
+            output.pick = 'up';
 
-    elseif idx == 3
-        output.pick = 'right';
+        elseif k == 4
+            output.pick = 'right';
 
+        end
+    else
+        output.score = 0;
+        output.pick = 'none';
     end
-else
-    output.score = 0;
-    output.pick = 'none';
-end
-output.onset_ideal = ideal;
-output.key = k;
-output.rt = rt;
+    output.onset_ideal = ideal;
+    output.key = k;
+    output.rt = rt;
 
 
 
-% TODO: animate avatar walk in while loop?
+
 end

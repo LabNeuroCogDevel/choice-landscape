@@ -1,4 +1,4 @@
-function [keyPressed,timeOfPress] = waitForKeyPress(keyPressed,mode)
+function [keyPressed,timeOfPress] = waitForKeyPress(keyPressed,mode,keys)
     
     timeOfPress = -1;
     if strcmpi(mode,'keyboard')
@@ -20,6 +20,7 @@ function [keyPressed,timeOfPress] = waitForKeyPress(keyPressed,mode)
         end
         
     elseif strcmpi(mode,'rtbox')
+        
         buttonStates = [RTBox('ButtonDown','1') RTBox('ButtonDown','2') RTBox('ButtonDown','3') RTBox('ButtonDown','4')];
         if any(buttonStates)
             timeOfPress = GetSecs;
