@@ -81,7 +81,13 @@ end
 onset = Screen('Flip', system.w, ideal);
 sendDaqs(system);
 
-[k rt] = waitForKeys(keys, onset + t.max_rt);
+% [k rt] = waitForKeys(keys, onset + t.max_rt);
+
+keyPressed = 0;
+RTBox('clear',5)
+while keyPressed == 0
+    [k,rt] = waitForKeyPress(keyPressed,'rtbox');
+end
 
 if rt > 0
     idx = find(allkeys == k,1);

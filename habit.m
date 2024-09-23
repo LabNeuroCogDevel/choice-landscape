@@ -5,7 +5,8 @@ function info = habit(varargin)
    Screen('CloseAll')
 
    %% 
-   system = load_system(varargin{:});
+   system = load_system(varargin{:});sca
+   
    timing = load_events(varargin{:});
    system.w = setup_screen(varargin{:});
    system.pos = setup_pos(system.w, varargin{:});
