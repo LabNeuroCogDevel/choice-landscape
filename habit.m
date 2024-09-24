@@ -14,9 +14,7 @@ system.tex = load_textures(system.w, varargin{:});
 correctTrials = 0;
 
 %% instructions
-if 0
-    [onset, output] = instructions(system, 1);
-end
+[onset, output] = instructions(system, 1);
 
 %% start timing and data collection
 record(length(timing)) = struct();

@@ -3,7 +3,7 @@ function timing = load_events(varargin)
 % fprintf('# loading event timing\n');
 
 nblocks = 3;
-ntrials = 15;
+ntrials = 50;
 i = 0; 
 
 for block = 1:nblocks
@@ -20,11 +20,11 @@ for block = 1:nblocks
         
         % Set chance values depending on the block
         if block == 1
-            timing(i).chance = [0,1,1,1]; % left, up, up,right
+            timing(i).chance = [.2,.5,.5,1]; % left, up, up,right
         elseif block == 2
-            timing(i).chance = [0.5,0.5,0.5,1]; % left, up, up,right since rtbox has 2 options for up
+            timing(i).chance = [0.5,0.2,0.2,1]; % left, up, up,right since rtbox has 2 options for up
         elseif block == 3
-            timing(i).chance = [0.5,1,1,0.5]; % left, up,up, right
+            timing(i).chance = [0.75,0.75,0.75,0.75]; % left, up,up, right
         end
         
         timing(i).max_rt = timing(i).dur;
@@ -40,7 +40,7 @@ for block = 1:nblocks
 
         i=i+1;
         timing(i).event_name = 'isi';
-        timing(i).dur = .2;
+        timing(i).dur = .52;
         timing(i).cross_color = [0,0,255]; % blue
         timing(i).func = @moveCharacter;
         timing(i).onset = timing(i-1).onset + timing(i-1).dur; % as soon as choice ends
@@ -48,7 +48,7 @@ for block = 1:nblocks
 
         i=i+1;
         timing(i).event_name = 'feedback';
-        timing(i).dur = .1;
+        timing(i).dur = .52;
         timing(i).func = @feedback;
         timing(i).onset = timing(i-1).onset + timing(i-1).dur;
         timing(i).i = i;
