@@ -18,7 +18,6 @@ DrawFormattedText(system.w, 'In this task you will be looking for treasure in th
 Screen('Flip', system.w); % Display the content on the screen
 while k == 0
     [k,rt]= waitForKeyPress(k,'rtbox');
-    disp(k)
 end
 
 % Instruction 2
