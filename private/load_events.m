@@ -7,11 +7,13 @@ ntrials = [36,36,72,72];
 i = 0;
 
 for block = 1:nblocks
+    block_choices = private/gen_choices(ntrials(block));
     for trial = 1:ntrials(block)
 
         % Randomly select two different options from 'left', 'up', and 'right'
         all_choices = {'left', 'up', 'right'};
-        selected_choices = datasample(all_choices, 2, 'Replace', false); % Randomly select 2 options without replacement
+        %selected_choices = datasample(all_choices, 2, 'Replace', false); % Randomly select 2 options without replacement
+        selected_choices = {all_choices(block_choices(trial,1)), all_choices(block_choices(trial,2))};
 
         i = i+1;
         timing(i).event_name = 'choice';
