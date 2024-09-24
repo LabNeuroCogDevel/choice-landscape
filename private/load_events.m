@@ -4,6 +4,13 @@ function timing = load_events(varargin)
 
 nblocks = 4;
 ntrials = [36,36,72,72];
+% TODO: shuffle left and up so left doesn't always start as bad
+block_probabilities = [ ...
+   ...  left, up, up, right; since rtbox has 2 options for up
+  .2,.5,.5,1;
+  0.5,0.2,0.2,1;
+  0.75,0.75,0.75,0.75;
+  1,1,1,1];
 i = 0;
 
 for block = 1:nblocks
@@ -21,16 +28,7 @@ for block = 1:nblocks
         timing(i).dur = 2;
 
         % Set chance values depending on the block
-        if block == 1
-            timing(i).chance = [.2,.5,.5,1]; % left, up, up,right
-        elseif block == 2
-            timing(i).chance = [0.5,0.2,0.2,1]; % left, up, up,right since rtbox has 2 options for up
-        elseif block == 3
-            timing(i).chance = [0.75,0.75,0.75,0.75]; % left, up,up, right
-        elseif block == 4
-            timing(i).chance = [1,1,1,1]; % left, up,up, right
-
-        end
+        timings(i).chance = block_probabilities(block);
 
         timing(i).max_rt = timing(i).dur;
         timing(i).i = i;
