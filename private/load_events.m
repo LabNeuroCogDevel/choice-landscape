@@ -14,7 +14,7 @@ block_probabilities = [ ...
 i = 0;
 
 for block = 1:nblocks
-    block_choices = private/gen_choices(ntrials(block));
+    block_choices = gen_choices(ntrials(block));
     for trial = 1:ntrials(block)
 
         % Randomly select two different options from 'left', 'up', and 'right'
