@@ -5,4 +5,6 @@ function block_choices = gen_choices(ntrial)
 end
 %! block_choices = gen_choices(36);
 %! assert(all(size(block_choices) == [36     2]))
-%! assert(all(size(unique(block_choices,'row')) == [3 2]
+%! [a,b,c] = unique(x,'row');
+%! assert(length(c) == 36)
+%! assert(length(b) == 3)

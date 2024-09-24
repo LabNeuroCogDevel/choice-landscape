@@ -71,3 +71,10 @@ end
 
 end
 
+%! timing = load_events();
+%! probs = cell2mat({timing(strmatch('choice',{timing.event_name})).chance}')
+%! [a,b,c] = unique(probs,'row');
+%  % correct block order
+%! assert(all(probs(sort(b),1) == [.2,.5,1,.75]))
+%  % correct number of trials before block switch
+%! assert(all(diff(sort(b)) == [36 36 72]))
