@@ -7,10 +7,11 @@ ntrials = [36,36,72,72];
 % TODO: shuffle left and up so left doesn't always start as bad
 block_probabilities = [ ...
    ...  left, up, up, right; since rtbox has 2 options for up
-  .2,.5,.5,1;
-  0.5,0.2,0.2,1;
-  0.75,0.75,0.75,0.75;
-  1,1,1,1];
+  0.2,  0.5,0.5   , 1;    ... block 1: init
+  0.5,  0.2,0.2   , 1;    ... block 2: switch
+  1,      1,1     , 1;    ... block 3: deval100
+  0.75, 0.75,0.75, 0.75;  ... block 4: deval75
+  ];
 i = 0;
 
 for block = 1:nblocks
@@ -23,6 +24,7 @@ for block = 1:nblocks
         selected_choices = [all_choices(block_choices(trial,1)), all_choices(block_choices(trial,2))];
 
         i = i+1;
+        timing(i).block = block;
         timing(i).event_name = 'choice';
         timing(i).func = @choice;
         timing(i).dur = 2;
