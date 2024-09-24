@@ -24,7 +24,7 @@ for block = 1:nblocks
         elseif block == 2
             timing(i).chance = [0.5,0.2,0.2,1]; % left, up, up,right since rtbox has 2 options for up
         elseif block == 3
-            timing(i).chance = [0.75,0.75,0.75,0.75]; % left, up,up, right
+            timing(i).chance = [1,1,1,1]; % left, up,up, right
         end
         
         timing(i).max_rt = timing(i).dur;
