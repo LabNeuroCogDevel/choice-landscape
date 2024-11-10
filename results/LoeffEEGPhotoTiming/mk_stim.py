@@ -31,6 +31,9 @@ tsv = "./data/remotebtn.tsv"
 # bdf='./data/short_practice_stimtest.bdf'
 # tsv='./data/short.tsv'
 
+bdf = '/Volumes/Hera/Raw/EEG/Habit/11882_20220826/11882_20220826_habit.bdf'
+tsv = '/Volumes/Hera/Projects/7TBrainMech/scripts/eeg/Shane/Habit/11882_20220826_run_893726.18.tsv'
+
 def read_events(bdf):
     "read events by making a new channel"
     ## read in eeg and get separate stim channel info

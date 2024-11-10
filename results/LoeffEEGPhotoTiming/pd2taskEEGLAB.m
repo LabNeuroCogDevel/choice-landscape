@@ -17,13 +17,13 @@ for i=2:length(ee)
     if ttl == 1 && prev_ttl >= 10 % is task info (not pd or button push)
         if ttl_diff <= max_ttl_to_pd_ms
            ee(i).type = prev_ttl;
-           tokeep(i-1) = 0; % remove prev (too early) task info
+           tokeep(i) = 0; % remove prev (too early) task info
            valdelta(i,:) = [prev_ttl ttl_diff];
         else
            fprintf('warning: pd ignoring b/c diff %.0f ms\n', ttl_diff)
         end
     else
-       fprintf('warning: pd next to button? %d\n', prev_ttl)
+        fprintf('warning: pd next to button? i=%d, ttl=%d, prev %d\n', i, ttl, prev_ttl)
     end
 end
 ee = ee(find(tokeep));

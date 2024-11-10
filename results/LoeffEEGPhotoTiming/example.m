@@ -110,22 +110,37 @@ xline(etime_secs(pd_idx),'c-' )
 
 %%% Shanes try
 % shift event onset to be prevoius photodiode onset
-addpath(genpath(hera('Projects/7TBrainMech/scripts/eeg/Shane/Functions/resources/eeglab2022.1')))
-addpath(hera('Projects/7TBrainMech/scripts/eeg/Shane/Functions'))
-addpath(hera('Projects/7TBrainMech/scripts/eeg/Shane/'))
+addpath('/opt/ni_tools/matlab_toolboxes/eeglab2024.2/')
 
 EEG = pop_biosig(f_eeg);
 
+% fix stimus channel again. reuse work from above
 for i=1:length(events)
     EEG.event(i).type = e_adj(i); 
     EEG.urevent(i).type = e_adj(i); 
-
 end
+
 % also see
-% EEG = pop_loadset('11882_20220826_run_893726.18.tsv_Rem.set', hera('/Volumes/Hera/Projects/7TBrainMech/scripts/eeg/Shane/Habit/'));
+% EEG = pop_loadset('11882_20220826_run_893726.18.tsv_Rem.set', '/Volumes/Hera/Projects/Habit/eeg/ShaneHabit/');
 
 %% move task info onto closest photodiode timing event 
 [eexx, ttl_delta] = pd2taskEEGLAB(EEG.event);
+
+[eexx(1:10).type; eexx(1:10).latency]' % adjusted
+[EEG.event(1:10).type; EEG.event(1:10).latency]' % orig
+
+%  adjusted         %    ORIG
+%    0         313  %    0         313
+%    4         813  %    4         813
+%  128         839  %  128         839
+%   23        1242  %   23        1232
+%                   %-   1        1242
+%    3        1263  %    3        1263
+%  164        1397  %  164        1362
+%                   %-   1        1397
+%  214        1514  %  214        1486
+%                   %-   1        1514
+
 
 %% explore difference between photodoide onset (screen flip) and task sent info
 % task knows what it wants to do (and sends ttl) before it can get the browser to show it on the screen
@@ -136,7 +151,7 @@ end
 ttl_event = floor(ttl_delta(:,1)/100)*100;
 ttl_group = findgroups(ttl_event);
 delta_mean_std = splitapply(@(x) [mean(x) std(x)], ttl_delta(:,2), ttl_group);
-[unique(ttl_event) delta_mean_std]
+[unique(ttl_event) delta_mean_std];
 hold on
 for ei=unique(ttl_event)'
     grpidx = ttl_event==ei;
@@ -145,6 +160,10 @@ for ei=unique(ttl_event)'
 end
 legend({'choice','wait', 'feedback'})
 hold off
+title('onsets shift from PD correction histogram by even type')
+xlabel('onset shift (ms)')
+ylabel('n')
+saveas(gcf,'img/PDshift_histogram.png')
 
 %% update EEG with new PD derived timing
 EEG.event = eexx; 
@@ -153,7 +172,6 @@ for i = 1:length(EEG.event)
 end
 EEG.urevent = rmfield(EEG.event, 'urevent'); 
 
-EEG = pop_saveset( EEG, 'filename','11882_20220826_run_893726.18.tsv_Rem_take2.set','filepath', hera('/Projects/7TBrainMech/scripts/eeg/Shane/Habit/'));
+%EEG = pop_saveset( EEG, 'filename','11882_20220826_run_893726.18.tsv_Rem_take2.set','filepath', hera('/Projects/7TBrainMech/scripts/eeg/Shane/Habit/'));
 
 % start habitCheckERPs here
-

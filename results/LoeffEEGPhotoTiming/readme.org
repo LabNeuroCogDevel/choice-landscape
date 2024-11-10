@@ -1,0 +1,73 @@
+#+TITLE: Onset Offset adjustment with Photodiode in Status Channel
+
+*  Background
+
+** Status Channel (in recording)
+Status channel trigger values include
+
+  - photodiode triggered events (routed through buttonbox). These are always ttl value ~1~
+  - those sent by the button box ~2-4~ (RT, initiiates "waiting" event)
+  - those exlictly sent by the task ~10-230~ (indicating event iti,choice,timeout,waiting,feedback,survey)
+
+They can be grouped like
+#+begin_example
+     1     2     3     4             % PD, buttons
+    10                               % iti
+    13    14    15                   % choice
+    23    24    25                   % 
+    73                               % timeout
+   128                               % start
+   163   164   166   167   168       % waiting (+150)
+   213   214   216   217   218       % feedback noscore, score (+200)
+   223   224   226   227   228  
+   230                               % finished/survey/catchall
+#+end_example
+
+
+Or as ~discretized~ in matlab
+#+begin_src matlab
+cuts = [0,     2,       5,     11,     30,       127,    129,       170,       229,      256];
+labs = {'Photo','Button', 'iti','choice','timeout','start', 'waiting','feedback','survey'}
+ttl_label = discretize(event_ttl,cuts,labs);
+#+end_src
+
+** Task tsv file (external)
+The task computer also records it's own history of events into a json file turned into a tsv.
+The timing recorded here is expected to be ahead of what is actually displayed due to sotware (web browser) and hardware (screen refresh rate, wiring) delays.
+
+First onset is the start of the run and of the recording. Baseline all timings to that
+#+begin_src matlab
+% adjust to very first iti_onset. and move from ms to seconds
+task_time{:,:} = (table2array(task_time) - task_time{1,1})./1000; 
+#+end_src
+
+* Combining
+
+We can visualize the three sources of timing information (task computer tsv, task sent triggers, and button box sent photodoide trigger)
+
+from [[file:mk_stim.py]]
+
+[[file:img/eeg_ttl_python.png]]
+
+or from [[file:example.m]]
+[[file:img/eeg_ttl_matlab.png]]
+
+
+* Adjusting
+[[file:pd2taskEEGLAB.m]] takes events and moves the onset of the photodoide (ttl=1) onto the approrpate preceding event.
+see [[file:example.m]]
+
+|-----+-----------+---+------+------------|
+| ttl | adj onset |   |  ttl | orig onset |
+|-----+-----------+---+------+------------|
+|   0 |       313 |   |    0 |        313 |
+|   4 |       813 |   |    4 |        813 |
+| 128 |       839 |   |  128 |        839 |
+|  23 |      1242 |   |   23 |       1232 |
+|     |           | * |    1 |       1242 |
+|   3 |      1263 |   |    3 |       1263 |
+| 164 |      1397 |   |  164 |       1362 |
+|     |           | * |    1 |       1397 |
+| 214 |      1514 |   |  214 |       1486 |
+
+[[file:img/PDshift_histogram.png]]
