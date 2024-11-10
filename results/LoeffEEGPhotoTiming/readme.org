@@ -5,9 +5,9 @@
 ** Status Channel (in recording)
 Status channel trigger values include
 
-  - photodiode triggered events (routed through buttonbox). These are always ttl value ~1~
-  - those sent by the button box ~2-4~ (RT, initiiates "waiting" event)
-  - those exlictly sent by the task ~10-230~ (indicating event iti,choice,timeout,waiting,feedback,survey)
+  - photodiode triggered events (routed through button box). These are always ttl value ~1~
+  - those sent by the button box ~2-4~ (RT, initiates "waiting" event)
+  - those explicitly sent by the task ~10-230~ (indicating event iti,choice,timeout,waiting,feedback,survey)
 
 They can be grouped like
 #+begin_example
@@ -33,7 +33,7 @@ ttl_label = discretize(event_ttl,cuts,labs);
 
 ** Task tsv file (external)
 The task computer also records it's own history of events into a json file turned into a tsv.
-The timing recorded here is expected to be ahead of what is actually displayed due to sotware (web browser) and hardware (screen refresh rate, wiring) delays.
+The timing recorded here is expected to be ahead of what is actually displayed due to software (web browser) and hardware (screen refresh rate, wiring) delays.
 
 First onset is the start of the run and of the recording. Baseline all timings to that
 #+begin_src matlab
@@ -54,7 +54,7 @@ or from [[file:example.m]]
 
 
 * Adjusting
-[[file:pd2taskEEGLAB.m]] takes events and moves the onset of the photodoide (ttl=1) onto the approrpate preceding event.
+[[file:pd2taskEEGLAB.m]] takes events and moves the onset of the photodoide (ttl=1) onto the appropriate preceding event.
 see [[file:example.m]]
 
 |-----+-----------+---+------+------------|
