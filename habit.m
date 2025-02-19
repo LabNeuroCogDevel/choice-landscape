@@ -16,6 +16,27 @@ correctTrials = 0;
 %% instructions
 [onset, output] = instructions(system, 1);
 
+%% initialize files and logging
+str_starttime = num2str(GetSecs())
+% expect to run on Abel laptop. hardcoded output path
+% relative to run directory if elsewhere
+output_folder = '/home/abel_lab/luna_habit/results/patientResults/';
+if ~exist(output_folder, 'dir')
+   output_folder = 'results/patientResults/'
+   mkdir(output_folder) % if exists, doesn't do anything
+end
+
+% 20250219WF/SM fixing oops from yesterday
+% don't overwrite existing data -- back up exist subject matfile
+mat_savefile = fullfile([output_folder patientID '.mat'])
+if exist(mat_savefile, 'file')
+   movefile(mat_savefile, [mat_savefile '_' str_starttime '.bak'])
+end
+
+% log all output sent to the command window
+% turrned off by 'closedown()'
+diary([output_folder patientID '_' str_starttime '_habitdiary']);
+
 %% start timing and data collection
 record(length(timing)) = struct();
 system.starttime = GetSecs();
@@ -37,10 +58,7 @@ for i=1:length(timing)
 
     info.record = record;
     info.system = system;
-    folder = '/home/abel_lab/luna_habit/results/patientResults/';
-    save(fullfile([folder patientID '.mat']), 'info'); 
-
-
+    save(mat_savefile, 'info');
 end
 
 
