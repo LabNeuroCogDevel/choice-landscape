@@ -357,7 +357,9 @@ async def loeffeeg(verbose=False):
     uses Cedrus response box (+attached photodiode)
     and TTL over LPT (biosemi)
     """
-    hw = LPT(address=0xD010, verbose=verbose)
+    lpt_address = 0xD010 #  53264; for windows
+    lpt_address = "/dev/parport0" # for linux
+    hw = LPT(address=lpt_address, verbose=verbose)
     kb = KB()
     rb = Cedrus(hw, kb)
     http_run(hw)
@@ -408,7 +410,7 @@ async def test_keyboard(verbose=True):
     await asyncio.create_task(rb.watch())
 
 
-async def test_LPT(verbose=False, address=0xD010):
+async def test_LPT(verbose=False, address=0): #0xD010):
     "only test LPT. loop forever: send high and auto reset (loef eeg)"
     hw = LPT(address=address, verbose=verbose)
     while True:
