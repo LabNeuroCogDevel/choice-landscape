@@ -9,7 +9,7 @@ echo "sleeping while java launches"
 sleep 1
 
 echo "$(tput setaf 10)manually fullscreen browser (F11, or alt+v f) and ensure zoom 120% $(tput sgr0)"
-firefox http://127.0.0.1:3001/seeg.html &
+firefox http://127.0.0.1:3001/loeffeeg.html &
 foxpid=$!
 
 echo "# launching buttonbox/keyboard bridge"
