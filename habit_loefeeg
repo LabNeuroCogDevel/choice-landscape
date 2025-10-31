@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 trap '[ -n "$psiclj" ] && kill $psiclj && echo killed psiclj; test -n "$foxpid" && kill $_ && echo killed firefox;' EXIT SIGKILL
 cd "$(dirname "$(readlink -f "$0")")" || exit
+
+# python 'uv pip install' done in venv (pyinput, torando, etc)
+venv=~/.venv/bin/activate
+if ! test -r $venv; then
+  echo "ERROR: no virtual environment! want to source $venv" >&2
+  sleep 2
+fi
+source $venv 
+
 #./psiclj & # TODO: maybe launch in separate terminal?
 #java -cp psiclj.jar clojure.main -m psiclj &
 ./psiclj-heroku &
