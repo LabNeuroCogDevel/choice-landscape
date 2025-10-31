@@ -4,16 +4,16 @@ body{
    margin: auto;
 }
 body.desert{
-   background: #e28c39 url("imgs/desert_border.jpg") repeat-x;
+   background: #e28c39 url("imgs/desert_border.png") repeat-x;
 }
 body.wellcoin{
-   background: #e28c39 url("imgs/desert_border.jpg") repeat-x;
+   background: #e28c39 url("imgs/desert_border.png") repeat-x;
 }
 body.ocean{
-   background: #fee3b4 url("imgs/ocean_border.jpg") repeat-x;
+   background: #fee3b4 url("imgs/ocean_border.png") repeat-x;
 }
 body.mountain{
-   background: #0d5419 url("imgs/mountain_border.jpg") repeat-x;
+   background: #0d5419 url("imgs/mountain_border.png") repeat-x;
 }
 .orange {
    background: url("imgs/orange1x1.png");
