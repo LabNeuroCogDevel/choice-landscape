@@ -15,9 +15,9 @@ const tweaks = {'nocaptcha': 'skip audio confirmatin/captcha',
               'step=slow': 'very slow moving avatar for debuging'
 }
 
-const landscapes = ['ocean', 'mountain', 'desert', 'wellcoin']
-const timing_choices = ['random', 'debug', 'mrA1', 'mrA2', 'mrB1', 'mrB2', 'quickrandom', 'randomA','randomB']
-const where_choices = ['practice','mri','eeg','seeg','online']
+var landscapes = ['ocean', 'mountain', 'desert', 'wellcoin']
+var timing_choices = ['random', 'debug', 'mrA1', 'mrA2', 'mrB1', 'mrB2', 'quickrandom', 'randomA','randomB']
+var where_choices = ['practice','mri','eeg','seeg','online']
 
 // grab value of an input
 function qs(name) {
