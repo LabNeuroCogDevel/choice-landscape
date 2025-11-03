@@ -121,7 +121,8 @@ ul#pick>li.picked { background: lightblue;}
 #progressbar_trials.mountain {  background: #efc75e;}
 
 /* for precision timing (iEEG/EEG). background color will change */
-#photodiode {height: 200px; width: 200px; display: block; position: fixed; top:0; left:0}
+#photodiode {height: 50px; width: 50px; display: block; position: fixed; top:0; left:0}
+/* 2025-11-02 WF - move square from 200x200 to 50x50 to match previous. bigger for sEEG?*/
 
 /* score a point */
 .pointfloating { color: blue; font-weight: bold; }
