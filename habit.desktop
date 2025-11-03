@@ -1,6 +1,8 @@
 [Desktop Entry]
-Name=Habit Task
-Icon=org.gnome.Terminal
-Exec=/home/luna/habit
-Terminal=true
+Name=ChoiceLandscape
+GenericName=ChoiceLandscape
+Comment=R31Habit Grant task
+Exec=/home/lncd/tasks/choice-landscape/habit_loefeeg
 Type=Application
+Icon=/home/lncd/tasks/choice-landscape/resources/public/imgs/favicon.png
+Terminal=true
