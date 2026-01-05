@@ -49,7 +49,7 @@ This project is clojurescript that transpiles to javascript (see the [[https://g
   * code path: enter in [[https://github.com/LabNeuroCogDevel/choice-landscape/blob/master/src/landscape/core.cljs#L202][core.cljs]] and follow to loop.cljs/run-loop and display-state
     * model updating with [[https://github.com/LabNeuroCogDevel/choice-landscape/blob/master/src/landscape/model.cljs#L123][model.cljs/next-step]] and
     * displayed with [[https://github.com/LabNeuroCogDevel/choice-landscape/blob/master/src/landscape/view.cljs#L364][view.cljs/display-state]]
-  * EEG status channel TTL codes are generated with [[https://github.com/LabNeuroCogDevel/choice-landscape/blob/master/src/landscape/model/phase.cljs#L96][phase/gen-ttl]]
+  * EEG status channel TTL codes are generated with [[https://github.com/LabNeuroCogDevel/choice-landscape/blob/master/src/landscape/model/phase.cljs#L96][phase/gen-ttl]], more is written about them on [[file:results/LoeffEEGPhotoTiming/readme.org][results/LoeffEEGPhotoTiming/readme.org]]
 
 * Debugging
 Using e.g. CIDER with figwheel-main:dev (C-c M-J in emacs on core.cljs)  

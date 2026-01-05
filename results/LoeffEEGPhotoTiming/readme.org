@@ -9,24 +9,45 @@ Status channel trigger values include
   - those sent by the button box ~2-4~ (RT, initiates "waiting" event)
   - those explicitly sent by the task ~10-230~ (indicating event iti,choice,timeout,waiting,feedback,survey)
 
+See [[file:~/src/tasks/choice-landscape/src/landscape/model/phase.cljs#L96][phase/gen-ttl]].
+
+*** Grouped
 They can be grouped like
 #+begin_example
      1     2     3     4             % PD, buttons
-    10                               % iti
-    13    14    15                   % choice
-    23    24    25                   % 
+    10    13    14    15             % iti    (3,4,5 = upcoming choice state)
+    23    24    25                   % choice (20 + {3LU, 4LR, 5 UR})
     73                               % timeout
    128                               % start
-   163   164   166   167   168       % waiting (+150)
-   213   214   216   217   218       % feedback noscore, score (+200)
-   223   224   226   227   228  
+   163   164   166   167   168       % waiting (state&key +150)
+   213   214   216   217   218       % feedback noscore (state&key +200)
+   223   224   226   227   228       %     +10 if score (rewarded)
    230                               % finished/survey/catchall
 #+end_example
 
+*** State & button
+State (choice options: ~Left and Up~, ~left and right~, or ~up and right~) is predetermined.
+This state is included in trigger values sent for each event (iti, choice, waiting, feedback).
+This can be useful for confirming trigger sequence is expected and no values have been corrupted.
+
+When a choice has been made (left, up, right), that value is also included in the trigger.
+Combining state and button push choice distributes 13-18 to the six possible combinations.
+That is added to the event (waiting: ~150~ + state&choice [ =163-168= ], feedback: ~200~ + state&choice+reward [ =213-228= ])
+
+| options    | iti | choice | waiting (+150) AND feedback  (+200 +10? ) |    |       |
+|------------+-----+--------+-------------------------------------------+----+-------|
+|            |     |        |                                      left | up | right |
+| left+up    |  13 |     23 |                                        13 | 14 |       |
+| left+right |  14 |     24 |                                        15 |    |    17 |
+| up+right   |  15 |     25 |                                           | 16 |    18 |
++------------+-----+--------+--------------------+----------+-------------+
+
+
+*** Matlab cut
 
 Or as ~discretized~ in matlab
-#+begin_src matlab
-cuts = [0,     2,       5,     11,     30,       127,    129,       170,       229,      256];
+#+begin_src matlab :eval never
+cuts = [0,     2,       5,     19,     30,       127,    129,       170,       229,      256];
 labs = {'Photo','Button', 'iti','choice','timeout','start', 'waiting','feedback','survey'}
 ttl_label = discretize(event_ttl,cuts,labs);
 #+end_src
@@ -36,7 +57,7 @@ The task computer also records it's own history of events into a json file turne
 The timing recorded here is expected to be ahead of what is actually displayed due to software (web browser) and hardware (screen refresh rate, wiring) delays.
 
 First onset is the start of the run and of the recording. Baseline all timings to that
-#+begin_src matlab
+#+begin_src matlab :eval never
 % adjust to very first iti_onset. and move from ms to seconds
 task_time{:,:} = (table2array(task_time) - task_time{1,1})./1000; 
 #+end_src
