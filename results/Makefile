@@ -14,7 +14,7 @@ heroku.raw.json: .ALWAYS
 	#	"select json_agg(json_build_object('id',worker_id,'task',task_name,'created_at', created_at, 'finished_at',finished_at, 'ver', version,'timepoint',timepoint, 'run_number',run_number,'json', json::json)) from run where finished_at is not null;" | \
 	#	mkifdiff $@;
 
-/Volumes/Hera/Projects/Habit/mr/habit/txt/all_habit.json:
+/Volumes/Hera/Projects/Habit/mr/habit/txt/all_habit.json: .ALWAYS
 	make -C /Volumes/Hera/Projects/Habit/mr/habit/ txt/all_habit.json
 
 lab.raw.json: /Volumes/Hera/Projects/Habit/mr/habit/txt/all_habit.json
